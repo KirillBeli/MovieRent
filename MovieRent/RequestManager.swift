@@ -9,8 +9,12 @@ import UIKit
 
 class RequestManager {
     
-    static let shared = RequestManager()
-    private init() {
+    static let shared = RequestManager(session: URLSession(), image: UIImage())
+    var session: URLSession
+    var image: UIImage
+    private init(session: URLSession, image: UIImage) {
+        self.session = session
+        self.image = image
     }
     
     let decoder = JSONEncoder()
@@ -30,26 +34,9 @@ class RequestManager {
             }
         }.resume()
     }
-    //MARK: - URLSession BannerURL
-    func uploadFomURL1(url: URL, completion: @escaping (BannerData) -> Void) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { jsonData, response, error in
-            if jsonData != nil && error == nil {
-                do {
-                    let jsonBanner = try JSONDecoder().decode(BannerData.self, from: jsonData!)
-                    self.decoder.outputFormatting = .prettyPrinted
-                    completion(jsonBanner)
-                } catch {
-                    print("parse error \(error)")
-                }
-            }
-        }.resume()
-    }
-    
-   
     
     //MARK: - URLSession MoviesURL
-    func uploadFomURL2(url: URL, completion: @escaping (MoviesData) -> Void) {
+    func uploadFomURLMovies(url: URL, completion: @escaping (MoviesData) -> Void) {
         let session = URLSession.shared
         session.dataTask(with: url) { jsonData, response, error in
             if jsonData != nil && error == nil {
@@ -80,6 +67,28 @@ class RequestManager {
         }.resume()
     }
     
+    func downloadImage(url: URL, completion: @escaping (Data?, Error?) -> (Void)) {
+        let configur = URLSessionConfiguration.default
+        session = URLSession(configuration: configur)
+        let _: Void = session.downloadTask(with: url) { url, response, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { completion(nil, error)
+                return
+            }
+            guard let url = url else { completion(nil, error)
+                return
+            }
+            do{
+                let data = try Data(contentsOf: url)
+                completion(data, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }.resume()
+    }
     
 }
 
@@ -94,4 +103,13 @@ extension NSObject {
     class var className: String {
         return String(describing: self)
     }
+}
+
+extension UITableView {
+    
+    func registerXib(xibName: String) {
+        let xib = UINib(nibName: xibName, bundle: nil)
+        register(xib, forCellReuseIdentifier: xibName)
+    }
+    
 }

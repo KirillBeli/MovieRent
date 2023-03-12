@@ -10,7 +10,7 @@ import UIKit
 class DetailsViewController: UIViewController, URLSessionDelegate {
     
     //MARK: - Properties
-    var detailsData = DetailsData(id: String(), name: String(), year: String(), category: String(), description: String(), imageURL: String(), promoURL: String(), rate: String(), hour: String())
+    var detailsData: DetailsData!
     
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -22,23 +22,29 @@ class DetailsViewController: UIViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.detailsData)
         self.nameLabel.text = detailsData.name
         self.yearLabel.text = "Year: \(detailsData.year)"
         self.categoryLabel.text = "Category: \(detailsData.category)"
         self.rateLabel.text = "Rate: \(detailsData.rate)"
         self.descriptionLabel.text = "Description: \(detailsData.description)"
-        
-        self.promoTitle.titleLabel?.numberOfLines = 1
-        self.promoTitle.titleLabel?.lineBreakMode = .byTruncatingTail
-        self.promoTitle.setTitle("\(detailsData.promoURL)", for: .normal)
-        
-        var urlImageString: String = "\(self.detailsData.imageURL)"
+        self.promoTitle.setTitle("Watch Promo", for: .normal)
+        var urlImageString: String = "\(detailsData.imageURL)"
         if !urlImageString.contains("https") {
             urlImageString = urlImageString.replacingOccurrences(of: "http", with: "https")
         }
         guard let urlImage = URL(string: "\(urlImageString)") else { return }
-        downloadImage(url: urlImage)
+        //MARK: - Download PromoImage
+        RequestManager.shared.downloadImage(url: urlImage) { (data, error) in
+            DispatchQueue.main.async {
+                if let data = data {
+                    let promoImage = UIImage(data: data)
+                    self.movieImage.image = promoImage
+                } else {
+                    print(error as Any)
+                }
+            }
+            
+        }
     }
     
     
@@ -48,7 +54,7 @@ class DetailsViewController: UIViewController, URLSessionDelegate {
         let vc = DetailsViewController(nibName: nibName, bundle: nil)
         return vc
     }
-    
+    //MARK: - Show Promo 
     @IBAction func promoButton(_ sender: UIButton) {
         guard let urlPromo = URL(string: "\(detailsData.promoURL)") else { return }
         ShowPromo(url: urlPromo)
@@ -66,26 +72,6 @@ class DetailsViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
-    //MARK: - Download Session
-    func downloadImage(url: URL) {
-        let session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-        session.downloadTask(with: url).resume()
-    }
-    
+ 
 }
 
-//MARK: - Download URLSession of image
-extension DetailsViewController: URLSessionDownloadDelegate {
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let data = try? Data(contentsOf: location) else {
-            print("we didn't get the data")
-            return
-        }
-        let image = UIImage(data: data)
-        movieImage.image = image
-    }
-    
-    
-    
-}

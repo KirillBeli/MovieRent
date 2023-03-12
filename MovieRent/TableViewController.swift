@@ -10,7 +10,7 @@ import UIKit
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: - Properties
-    var moviesData = MoviesData(movies: [Movies(id: String(), name: String(), year: String(), category: String())])
+    var moviesData: MoviesData?
     var filterData = [Movies]()
     @IBOutlet weak var searchBar: UISearchBar! { didSet {
         searchBar.resignFirstResponder() } }
@@ -18,11 +18,11 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        filterData = moviesData!.movies
         self.navigationItem.title = "Movies"
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil), forCellReuseIdentifier: "MovieTableViewCell")
-        tableView.register(MovieTableViewCell.nib(), forCellReuseIdentifier: "MovieTableViewCell")
+        tableView.registerXib(xibName: MovieTableViewCell.className)
     }
 
     //MARK: - Set TableView & cell
@@ -31,10 +31,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MovieTableViewCell.self)) as? MovieTableViewCell //else { return UITableViewCell() }
-        cell?.idLabel.text = self.filterData[indexPath.row].id
-        cell?.nameLabel.text = self.filterData[indexPath.row].name
-        return cell!
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MovieTableViewCell.self)) as? MovieTableViewCell else { return UITableViewCell() }
+        cell.idLabel.text = self.filterData[indexPath.row].id
+        cell.nameLabel.text = self.filterData[indexPath.row].name
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -44,20 +44,16 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         RequestManager.shared.uploadFomURLDetails(url: urlDetails) { jsonDetails in
             let detailsData = jsonDetails
             self.ShowDetails(detailsData: detailsData)
-        }
+        } 
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     //MARK: - Push to Details
     func ShowDetails(detailsData: DetailsData) {
         DispatchQueue.main.async {
-            guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            guard let firstWindow = firstScene.windows.first else { return }
             let viewController = DetailsViewController.makeFromNib()
-            if let nav = firstWindow.rootViewController as? UINavigationController {
                 viewController.detailsData = detailsData
-                nav.pushViewController(viewController, animated: true)
-            }
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     //MARK: - Nib View
@@ -73,10 +69,10 @@ extension TableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterData = []
         if searchBar.text == "" {
-            filterData = moviesData.movies
+            filterData = moviesData!.movies
         }
-        for word in moviesData.movies {
-            if word.name.contains(searchText) {
+        for word in moviesData!.movies {
+            if word.name.contains(searchText) || word.category.contains(searchText) {
                 filterData.append(word)
             }
         }
