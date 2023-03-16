@@ -71,14 +71,14 @@ class RequestManager {
         let configur = URLSessionConfiguration.default
         session = URLSession(configuration: configur)
         let _: Void = session.downloadTask(with: url) { url, response, error in
-            if let error = error {
-                completion(nil, error)
+            if error != nil {
+                completion(nil, NetworkManagerError.badData as? Error)
                 return
             }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { completion(nil, error)
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { completion(nil, NetworkManagerError.badResponse(URLResponse()) as? Error)
                 return
             }
-            guard let url = url else { completion(nil, error)
+            guard let url = url else { completion(nil, NetworkManagerError.badLocalUrl as? Error)
                 return
             }
             do{
@@ -105,11 +105,17 @@ extension NSObject {
     }
 }
 
+//MARK: - TableView Extension
 extension UITableView {
     
     func registerXib(xibName: String) {
         let xib = UINib(nibName: xibName, bundle: nil)
         register(xib, forCellReuseIdentifier: xibName)
     }
-    
+}
+//MARK: - Error Manager
+enum NetworkManagerError {
+    case badResponse(URLResponse?)
+    case badLocalUrl
+    case badData
 }

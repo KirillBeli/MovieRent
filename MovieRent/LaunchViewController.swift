@@ -11,7 +11,6 @@ class LaunchViewController: UIViewController, URLSessionDelegate {
     
     //MARK: - Properties
     var bannerData: BannerData?
-    //    var bannerData = BannerData(banner: [Banner(isImage: String(), imageUrl: String(), videoUrl: String())])
     @IBOutlet var imageView: UIImageView!
     
     
@@ -20,10 +19,12 @@ class LaunchViewController: UIViewController, URLSessionDelegate {
         imageView.image = UIImage(named: "Cinema")
         
         //MARK: - Get Banner Data
-        RequestManager.shared.uploadFomURLBanner(url: URLManager.shared.urlBanner!) { jsonBanner in
+        guard let urlBanner = URLManager.shared.urlBanner else {return}
+        RequestManager.shared.uploadFomURLBanner(url: urlBanner) { [weak self] jsonBanner in
             DispatchQueue.main.async {
-                self.bannerData = jsonBanner
-                var imageUrl = jsonBanner.banner[1].imageUrl!
+                self?.bannerData = jsonBanner
+                
+                guard var imageUrl = jsonBanner.banner[1].imageUrl else {return}
                 if !imageUrl.contains("https") {
                     imageUrl = imageUrl.replacingOccurrences(of: "http", with: "https")
                 }
@@ -31,11 +32,11 @@ class LaunchViewController: UIViewController, URLSessionDelegate {
                 guard let url = URL(string: "\(imageUrl)") else {return print("Convert url error")}
                 
                 //MARK: - Download AdvertisingImage
-                RequestManager.shared.downloadImage(url: url) { (data, error) in
+                RequestManager.shared.downloadImage(url: url) { [weak self] (data, error) in
                     if let data = data {
                         DispatchQueue.main.sync {
                             guard let adImage = UIImage(data: data) else {return print("Data is not of type UIIMage")}
-                            self.showAdvertising(image: adImage)
+                            self?.showAdvertising(image: adImage)
                         }
                     }
                 }

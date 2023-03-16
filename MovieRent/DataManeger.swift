@@ -28,7 +28,7 @@ public struct Banner: Codable {
 public struct MoviesData: Codable {
     var movies: [Movies]
 }
-public struct Movies: Codable {
+public struct Movies: Codable, Equatable {
     let id: String
     let name: String
     let year: String
@@ -54,5 +54,26 @@ public struct DetailsData: Codable {
         case imageURL = "imageUrl"
         case promoURL = "promoUrl"
         case rate, hour
+    }
+}
+
+
+struct LocalizedString {
+    
+    struct MoviesFilter {
+        static let action = "action"
+        static let comedy = "comedy"
+        static let drama = "drama"
+        static let fantasy = "fantasy"
+        static let crime = "crime"
+    }
+    
+    struct MoviesTitle {
+        static let action = "Action"
+        static let comedy = "Comedy"
+        static let drama = "Drama"
+        static let fantasy = "Fantasy"
+        static let crime = "Crime"
+        static let movies = "Movies"
     }
 }
