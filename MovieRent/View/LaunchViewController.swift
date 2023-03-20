@@ -20,7 +20,7 @@ class LaunchViewController: UIViewController, URLSessionDelegate {
         
         //MARK: - Get Banner Data
         guard let urlBanner = URLManager.shared.urlBanner else {return}
-        RequestManager.shared.uploadFomURLBanner(url: urlBanner) { [weak self] jsonBanner in
+        RequestManager.shared.uploadFromURLBanner(url: urlBanner) { [weak self] jsonBanner in
             DispatchQueue.main.async {
                 self?.bannerData = jsonBanner
                 

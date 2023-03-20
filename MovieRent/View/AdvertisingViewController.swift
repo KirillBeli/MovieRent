@@ -30,7 +30,7 @@ class AdvertisingViewController: UIViewController {
     func timerForNextPage() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
             guard let urlMovies = URLManager.shared.urlMovies else {return}
-            RequestManager.shared.uploadFomURLMovies(url: urlMovies) { [weak self] jsonMovies in
+            RequestManager.shared.uploadFromURLMovies(url: urlMovies) { [weak self] jsonMovies in
                 let moviewsData = jsonMovies
                 let filterData = jsonMovies.movies
                 self?.showTableView(moviesData: moviewsData, filterData: filterData)

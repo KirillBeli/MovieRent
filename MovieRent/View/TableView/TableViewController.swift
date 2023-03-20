@@ -44,30 +44,20 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.nameLabel.text = filter.name
         DispatchQueue.main.async { [self] in
             let category = filter.category
-            addCategory(category: category, localizedS: moviesString.action.lowercased(), localizedC: moviesString.action.capitalized) { _ in
-                if !self.action.contains(where: { $0 == filter}) {
-                    self.action += [filter]
-                }
+            addCategory(category: category, localizedS: moviesString.action, localizedC: moviesString.action.capitalized, myCategory: action, filter: filter) { _ in
+                self.action += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.comedy.lowercased(), localizedC: moviesString.comedy.capitalized) { _ in
-                if !self.comedy.contains(where: { $0 == filter}) {
-                    self.comedy += [filter]
-                }
+            addCategory(category: category, localizedS: moviesString.comedy, localizedC: moviesString.comedy.capitalized, myCategory: comedy, filter: filter) { _ in
+                self.comedy += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.drama.lowercased(), localizedC: moviesString.drama.capitalized) { _ in
-                if !self.drama.contains(where: { $0 == filter}) {
-                    self.drama += [filter]
-                }
+            addCategory(category: category, localizedS: moviesString.drama, localizedC: moviesString.drama.capitalized, myCategory: drama, filter: filter) { _ in
+                self.drama += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.fantasy.lowercased(), localizedC: moviesString.fantasy.capitalized) { _ in
-                if !self.fantasy.contains(where: { $0 == filter}) {
-                    self.fantasy += [filter]
-                }
+            addCategory(category: category, localizedS: moviesString.fantasy, localizedC: moviesString.fantasy.capitalized, myCategory: fantasy, filter: filter) { _ in
+                self.fantasy += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.crime.lowercased(), localizedC: moviesString.crime.capitalized) { _ in
-                if !self.crime.contains(where: { $0 == filter}) {
-                    self.crime += [filter]
-                }
+            addCategory(category: category, localizedS: moviesString.crime, localizedC: moviesString.crime.capitalized, myCategory: crime, filter: filter) { _ in
+                self.crime += [filter]
             }
         }
         return cell
@@ -91,7 +81,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         let promoImage = UIImage(data: data)
                         self?.ShowDetails(detailsData: detailsData, promoImage: promoImage)
                     } else {
-                        print(NetworkManagerError.badData)
+                        print(NetworkManagerError.errorData)
                     }
                 }
             }
@@ -100,51 +90,54 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     //MARK: - Add Categoty
-    func addCategory(category: String, localizedS: String, localizedC: String, complition: @escaping (Bool) -> (Void)) {
+    func addCategory(category: String, localizedS: String, localizedC: String, myCategory: [Movies], filter: Movies, completion: @escaping (Bool) -> ()) {
         if category == localizedS || category == localizedC {
-            complition(true)
+            if !myCategory.contains(where: { $0 == filter}) {
+                completion(true)
+            }
         }
     }
     
     //MARK: - Filter IBAction Collection
+    func filterByButton(EqualTo: [Movies], title: String, completion: @escaping ()->()) {
+        self.filterData = EqualTo
+        self.navigationItem.title = title
+        completion()
+        self.tableView.reloadData()
+    }
+    
     @IBAction func allButton(_ sender: UIButton) {
         if let data = moviesData {
             filterData = data.movies
             self.navigationItem.title = moviesTitle.movies
+            self.tableView.reloadData()
         }
-        self.tableView.reloadData()
     }
     @IBAction func actionButton(_ sender: UIButton) {
-            filterData = action
-        self.navigationItem.title = moviesTitle.action
-            action = []
-            self.tableView.reloadData()
+        filterByButton(EqualTo: action, title: moviesTitle.action) {
+            self.action = []
+        }
     }
     @IBAction func comedyButton(_ sender: UIButton) {
-        filterData = comedy
-        self.navigationItem.title = moviesTitle.comedy
-        comedy = []
-        self.tableView.reloadData()
+        filterByButton(EqualTo: comedy, title: moviesTitle.comedy) {
+            self.comedy = []
+        }
     }
     @IBAction func fantasyButton(_ sender: UIButton) {
-        filterData = fantasy
-        self.navigationItem.title = moviesTitle.fantasy
-        fantasy = []
-        self.tableView.reloadData()
+        filterByButton(EqualTo: fantasy, title: moviesTitle.fantasy) {
+            self.fantasy = []
+        }
     }
     @IBAction func crimeButton(_ sender: UIButton) {
-        filterData = crime
-        self.navigationItem.title = moviesTitle.crime
-        crime = []
-        self.tableView.reloadData()
+        filterByButton(EqualTo: crime, title: moviesTitle.crime) {
+            self.crime = []
+        }
     }
     @IBAction func dramaButton(_ sender: UIButton) {
-        filterData = drama
-        self.navigationItem.title = moviesTitle.drama
-        drama = []
-        self.tableView.reloadData()
+        filterByButton(EqualTo: drama, title: moviesTitle.drama) {
+            self.drama = []
+        }
     }
-    
     
     //MARK: - Push to Details
     func ShowDetails(detailsData: DetailsData, promoImage: UIImage?) {

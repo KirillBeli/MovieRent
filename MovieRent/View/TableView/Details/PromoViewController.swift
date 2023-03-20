@@ -12,16 +12,15 @@ class PromoViewController: UIViewController {
 
     //MARK: - Properties
     var url = URL(string: "")
+    
     @IBOutlet weak var webView: WKWebView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-            self.webView.load(URLRequest(url: url!))
-          
-       
-    }
+        guard let url:URL = url else {return}
+            self.webView.load(URLRequest(url: url))
+        }
 
   
     

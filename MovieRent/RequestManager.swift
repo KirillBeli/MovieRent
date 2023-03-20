@@ -9,18 +9,18 @@ import UIKit
 
 class RequestManager {
     
-    static let shared = RequestManager(session: URLSession(), image: UIImage())
-    var session: URLSession
+    static let shared = RequestManager(image: UIImage())
+    var session = URLSession.shared
     var image: UIImage
-    private init(session: URLSession, image: UIImage) {
-        self.session = session
+    let decoder = JSONEncoder()
+    private init(image: UIImage) {
         self.image = image
     }
     
-    let decoder = JSONEncoder()
+    
     
     //MARK: - URLSession BannerURL
-    func uploadFomURLBanner(url: URL, completion: @escaping (BannerData) -> Void) {
+    func uploadFromURLBanner(url: URL, completion: @escaping (BannerData) -> Void) {
         let session = URLSession.shared
         session.dataTask(with: url) { jsonData, response, error in
             if jsonData != nil && error == nil {
@@ -36,7 +36,7 @@ class RequestManager {
     }
     
     //MARK: - URLSession MoviesURL
-    func uploadFomURLMovies(url: URL, completion: @escaping (MoviesData) -> Void) {
+    func uploadFromURLMovies(url: URL, completion: @escaping (MoviesData) -> Void) {
         let session = URLSession.shared
         session.dataTask(with: url) { jsonData, response, error in
             if jsonData != nil && error == nil {
@@ -72,13 +72,13 @@ class RequestManager {
         session = URLSession(configuration: configur)
         let _: Void = session.downloadTask(with: url) { url, response, error in
             if error != nil {
-                completion(nil, NetworkManagerError.badData as? Error)
+                completion(nil, NetworkManagerError.errorData as? Error)
                 return
             }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { completion(nil, NetworkManagerError.badResponse(URLResponse()) as? Error)
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { completion(nil, NetworkManagerError.errorResponse(URLResponse()) as? Error)
                 return
             }
-            guard let url = url else { completion(nil, NetworkManagerError.badLocalUrl as? Error)
+            guard let url = url else { completion(nil, NetworkManagerError.errorLocalUrl as? Error)
                 return
             }
             do{
@@ -90,32 +90,4 @@ class RequestManager {
         }.resume()
     }
     
-}
-
-//MARK: - NSObject Extension
-@objc
-extension NSObject {
-    
-    var className: String {
-        return String(describing: type(of: self))
-    }
-    
-    class var className: String {
-        return String(describing: self)
-    }
-}
-
-//MARK: - TableView Extension
-extension UITableView {
-    
-    func registerXib(xibName: String) {
-        let xib = UINib(nibName: xibName, bundle: nil)
-        register(xib, forCellReuseIdentifier: xibName)
-    }
-}
-//MARK: - Error Manager
-enum NetworkManagerError {
-    case badResponse(URLResponse?)
-    case badLocalUrl
-    case badData
 }

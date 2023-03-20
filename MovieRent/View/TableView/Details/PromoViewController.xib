@@ -11,7 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PromoViewController" customModule="MovieRent" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="webView" destination="Kbf-Lv-Tdh" id="iSj-PM-ZLb"/>
+                <outlet property="webView" destination="lpg-So-buA" id="iER-ie-TZa"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -23,24 +23,28 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="114"/>
                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kbf-Lv-Tdh">
-                    <rect key="frame" x="0.0" y="114" width="393" height="704"/>
+                <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lpg-So-buA">
+                    <rect key="frame" x="0.0" y="114" width="393" height="738"/>
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </webView>
+                    <wkWebViewConfiguration key="configuration">
+                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                        <wkPreferences key="preferences"/>
+                    </wkWebViewConfiguration>
+                </wkWebView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Whz-2S-c08" secondAttribute="bottom" priority="750" constant="704" id="6hF-qJ-yhM"/>
-                <constraint firstItem="Kbf-Lv-Tdh" firstAttribute="top" secondItem="Whz-2S-c08" secondAttribute="bottom" id="ANN-JZ-oj1"/>
+                <constraint firstAttribute="bottom" secondItem="lpg-So-buA" secondAttribute="bottom" id="7Em-uz-GoL"/>
                 <constraint firstItem="Whz-2S-c08" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DfJ-Jx-orr"/>
+                <constraint firstItem="lpg-So-buA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DqH-OS-9oV"/>
+                <constraint firstItem="lpg-So-buA" firstAttribute="top" secondItem="Whz-2S-c08" secondAttribute="bottom" id="Lt4-o8-M9W"/>
                 <constraint firstItem="Whz-2S-c08" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Msb-QT-Sod"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Kbf-Lv-Tdh" secondAttribute="bottom" id="Nek-RA-BHR"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lpg-So-buA" secondAttribute="trailing" id="Y4U-fz-1qX"/>
                 <constraint firstItem="Whz-2S-c08" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gbR-kk-sjE"/>
-                <constraint firstItem="Kbf-Lv-Tdh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="glv-Cs-mDt"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Kbf-Lv-Tdh" secondAttribute="trailing" id="uUE-YD-bpj"/>
             </constraints>
-            <point key="canvasLocation" x="132" y="-11"/>
+            <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
         </view>
     </objects>
     <resources>
