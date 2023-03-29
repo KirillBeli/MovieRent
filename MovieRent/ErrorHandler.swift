@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: - Error Manager
-enum NetworkManagerError {
+enum NetworkManagerError: Error {
     case errorResponse(URLResponse?)
     case errorLocalUrl
     case errorData

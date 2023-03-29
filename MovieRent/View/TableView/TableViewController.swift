@@ -12,6 +12,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //MARK: - Properties
     var moviesData: MoviesData?
     var filterData = [Movies]()
+    let model = TableViewModel()
     var action: [Movies] = []
     var comedy: [Movies] = []
     var drama: [Movies] = []
@@ -44,19 +45,19 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.nameLabel.text = filter.name
         DispatchQueue.main.async { [self] in
             let category = filter.category
-            addCategory(category: category, localizedS: moviesString.action, localizedC: moviesString.action.capitalized, myCategory: action, filter: filter) { _ in
+            model.addCategory(category: category, localizedS: moviesString.action, localizedC: moviesString.action.capitalized, myCategory: action, filter: filter) { _ in
                 self.action += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.comedy, localizedC: moviesString.comedy.capitalized, myCategory: comedy, filter: filter) { _ in
+            model.addCategory(category: category, localizedS: moviesString.comedy, localizedC: moviesString.comedy.capitalized, myCategory: comedy, filter: filter) { _ in
                 self.comedy += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.drama, localizedC: moviesString.drama.capitalized, myCategory: drama, filter: filter) { _ in
+            model.addCategory(category: category, localizedS: moviesString.drama, localizedC: moviesString.drama.capitalized, myCategory: drama, filter: filter) { _ in
                 self.drama += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.fantasy, localizedC: moviesString.fantasy.capitalized, myCategory: fantasy, filter: filter) { _ in
+            model.addCategory(category: category, localizedS: moviesString.fantasy, localizedC: moviesString.fantasy.capitalized, myCategory: fantasy, filter: filter) { _ in
                 self.fantasy += [filter]
             }
-            addCategory(category: category, localizedS: moviesString.crime, localizedC: moviesString.crime.capitalized, myCategory: crime, filter: filter) { _ in
+            model.addCategory(category: category, localizedS: moviesString.crime, localizedC: moviesString.crime.capitalized, myCategory: crime, filter: filter) { _ in
                 self.crime += [filter]
             }
         }
@@ -64,42 +65,13 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let urlDeatilsId = "\(filterData[indexPath.row].id).txt"
-        let urlDetailsString = "\(URLManager.shared.urlDetailsBase)\(urlDeatilsId)"
-        guard let urlDetails = URL(string: "\(urlDetailsString)") else { return }
-        RequestManager.shared.uploadFomURLDetails(url: urlDetails) { [weak self] jsonDetails in
-            let detailsData = jsonDetails
-            var urlImageString: String = "\(detailsData.imageURL)"
-            if !urlImageString.contains("https") {
-                urlImageString = urlImageString.replacingOccurrences(of: "http", with: "https")
-            }
-            guard let urlDetailImage = URL(string: "\(urlImageString)") else {return}
-            //MARK: - Download PromoImage
-            RequestManager.shared.downloadImage(url: urlDetailImage) { [weak self] (data, error) in
-                DispatchQueue.main.async {
-                    if let data = data {
-                        let promoImage = UIImage(data: data)
-                        self?.ShowDetails(detailsData: detailsData, promoImage: promoImage)
-                    } else {
-                        print(NetworkManagerError.errorData)
-                    }
-                }
-            }
-        }
+        model.selectRow(data: filterData, index: indexPath, navigation: self.navigationController)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    //MARK: - Add Categoty
-    func addCategory(category: String, localizedS: String, localizedC: String, myCategory: [Movies], filter: Movies, completion: @escaping (Bool) -> ()) {
-        if category == localizedS || category == localizedC {
-            if !myCategory.contains(where: { $0 == filter}) {
-                completion(true)
-            }
-        }
-    }
     
     //MARK: - Filter IBAction Collection
-    func filterByButton(EqualTo: [Movies], title: String, completion: @escaping ()->()) {
+     func filterByButton(EqualTo: [Movies], title: String, completion: @escaping ()->()) {
         self.filterData = EqualTo
         self.navigationItem.title = title
         completion()
@@ -138,16 +110,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.drama = []
         }
     }
-    
-    //MARK: - Push to Details
-    func ShowDetails(detailsData: DetailsData, promoImage: UIImage?) {
-        DispatchQueue.main.async {
-            let viewController = DetailsViewController.makeFromNib()
-            viewController.detailsData = detailsData
-            viewController.image = promoImage
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
-    }
+   
     //MARK: - Nib View
     static func makeFromNib() -> TableViewController {
         let nibName = TableViewController.className
@@ -161,12 +124,12 @@ extension TableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterData = []
         if let data = moviesData {
-            if searchBar.text == "" {
-                filterData = data.movies
-            }
-            for word in data.movies {
-                if word.name.contains(searchText) || word.category.contains(searchText) {
-                    filterData.append(word)
+            model.searchBarSet(data: data, bar: searchBar, searchText: searchText) { [weak self] (fullData, word) in
+                if let fullData = fullData {
+                    self?.filterData = fullData
+                }
+                if let word = word {
+                    self?.filterData.append(word)
                 }
             }
         }

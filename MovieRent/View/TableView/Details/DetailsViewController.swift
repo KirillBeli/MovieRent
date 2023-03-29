@@ -46,7 +46,7 @@ class DetailsViewController: UIViewController, URLSessionDelegate {
     }
     
     //MARK: - Push to webView
-    func ShowPromo(url: URL) {
+    private func ShowPromo(url: URL) {
         DispatchQueue.main.async {
             let viewController = PromoViewController.makeFromNib()
                 viewController.url = URL(string: "\(self.detailsData.promoURL)")

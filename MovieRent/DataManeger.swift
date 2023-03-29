@@ -13,7 +13,7 @@ public struct BannerData: Codable {
     let banner: [Banner]
 }
 
-public struct Banner: Codable {
+public struct Banner: Codable, Equatable {
     let isImage: String?
     let imageUrl: String?
     let videoUrl: String? 
@@ -28,6 +28,7 @@ public struct Banner: Codable {
 public struct MoviesData: Codable {
     var movies: [Movies]
 }
+
 public struct Movies: Codable, Equatable {
     let id: String
     let name: String
@@ -59,6 +60,10 @@ public struct DetailsData: Codable {
 
 
 struct LocalizedString {
+    
+    struct ImagesString {
+        static let advertisingImage = "Cinema"
+    }
     
     struct MoviesFilter {
         static let action = "action"

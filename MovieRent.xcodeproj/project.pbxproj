@@ -17,6 +17,9 @@
 		27461E0F29AA918400CFBA94 /* MovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27461E0D29AA918400CFBA94 /* MovieTableViewCell.xib */; };
 		27461E1729AB69D000CFBA94 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27461E1529AB69D000CFBA94 /* DetailsViewController.swift */; };
 		27461E1829AB69D000CFBA94 /* DetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27461E1629AB69D000CFBA94 /* DetailsViewController.xib */; };
+		278FC04B29D4AABB0000D2E0 /* LaunchModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278FC04A29D4AABB0000D2E0 /* LaunchModelView.swift */; };
+		278FC04D29D4ADA20000D2E0 /* AdvertisingModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278FC04C29D4ADA20000D2E0 /* AdvertisingModelView.swift */; };
+		278FC04F29D4B0570000D2E0 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278FC04E29D4B0570000D2E0 /* TableViewModel.swift */; };
 		27F8CB8729AA407300C84976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8CB8629AA407300C84976 /* AppDelegate.swift */; };
 		27F8CB8929AA407300C84976 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8CB8829AA407300C84976 /* SceneDelegate.swift */; };
 		27F8CB8B29AA407300C84976 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8CB8A29AA407300C84976 /* LaunchViewController.swift */; };
@@ -42,6 +45,9 @@
 		27461E0D29AA918400CFBA94 /* MovieTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieTableViewCell.xib; sourceTree = "<group>"; };
 		27461E1529AB69D000CFBA94 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		27461E1629AB69D000CFBA94 /* DetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsViewController.xib; sourceTree = "<group>"; };
+		278FC04A29D4AABB0000D2E0 /* LaunchModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchModelView.swift; sourceTree = "<group>"; };
+		278FC04C29D4ADA20000D2E0 /* AdvertisingModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingModelView.swift; sourceTree = "<group>"; };
+		278FC04E29D4B0570000D2E0 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		27F8CB8329AA407300C84976 /* MovieRent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieRent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F8CB8629AA407300C84976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F8CB8829AA407300C84976 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				27F8CB8A29AA407300C84976 /* LaunchViewController.swift */,
+				278FC04A29D4AABB0000D2E0 /* LaunchModelView.swift */,
 				27F8CB8C29AA407300C84976 /* Main.storyboard */,
 				27B9B23929C8E0B80044ACD2 /* Advertising */,
 			);
@@ -83,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				27461E0629AA900F00CFBA94 /* TableViewController.swift */,
+				278FC04E29D4B0570000D2E0 /* TableViewModel.swift */,
 				27461E0729AA900F00CFBA94 /* TableViewController.xib */,
 				271432B729C8DFD7009E5A06 /* Details */,
 				271432B629C8DFC1009E5A06 /* Cell */,
@@ -122,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				27F8CB9F29AA439300C84976 /* AdvertisingViewController.swift */,
+				278FC04C29D4ADA20000D2E0 /* AdvertisingModelView.swift */,
 				27F8CBA029AA439300C84976 /* AdvertisingViewController.xib */,
 				271432B529C8DFAB009E5A06 /* TableView */,
 			);
@@ -256,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27461E0E29AA918400CFBA94 /* MovieTableViewCell.swift in Sources */,
+				278FC04D29D4ADA20000D2E0 /* AdvertisingModelView.swift in Sources */,
 				271432B229C8D47D009E5A06 /* ErrorHandler.swift in Sources */,
 				27F8CB8B29AA407300C84976 /* LaunchViewController.swift in Sources */,
 				27F8CBA829AA486C00C84976 /* URLManager.swift in Sources */,
@@ -269,6 +279,8 @@
 				27F8CB9129AA407300C84976 /* MovieRent.xcdatamodeld in Sources */,
 				27461E0829AA900F00CFBA94 /* TableViewController.swift in Sources */,
 				27F8CBA629AA482800C84976 /* DataManeger.swift in Sources */,
+				278FC04F29D4B0570000D2E0 /* TableViewModel.swift in Sources */,
+				278FC04B29D4AABB0000D2E0 /* LaunchModelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
