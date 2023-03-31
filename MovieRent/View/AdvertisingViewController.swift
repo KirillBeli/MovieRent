@@ -10,21 +10,22 @@ import UIKit
 class AdvertisingViewController: UIViewController {
     
     //MARK: - Properties
-    var image = UIImage()
-    let model = AdvertisingModelView()
+    
+    private var model: AdvertisingModelView?
     @IBOutlet weak var advertisingImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        advertisingImage.image = image
-        model.timerForNextPage()
-//        timerForNextPage()
+        advertisingImage.image = model?.image
+        model?.timerForNextPage()
         }
     
     //MARK: - Nib View
-    static func makeFromNib() -> AdvertisingViewController {
+    static func makeFromNib(image: UIImage?, didFinishShowing: @escaping () -> Void) -> AdvertisingViewController {
         let nibName = AdvertisingViewController.className
         let vc = AdvertisingViewController(nibName: nibName, bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        vc.model = AdvertisingModelView(image: image, didFinishShowing: didFinishShowing)
         return vc
     }
     

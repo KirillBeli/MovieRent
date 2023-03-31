@@ -18,7 +18,7 @@ class LaunchModelView {
         let urlBanner = URLManager.shared.urlBanner
         RequestManager.shared.getData(url: urlBanner, decodeTo: BannerData.self) { [weak self] jsonDetails in
             DispatchQueue.main.async {
-                self?.bannerData = jsonDetails as? BannerData
+                self?.bannerData = jsonDetails
                 guard var imageUrl = self?.bannerData?.banner[1].imageUrl else {return}
                 if !imageUrl.contains("https") {
                     imageUrl = imageUrl.replacingOccurrences(of: "http", with: "https")
@@ -40,16 +40,38 @@ class LaunchModelView {
     }
     
     //MARK: - Push To AdvertisingViewController
-    func showAdvertising(image: UIImage) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
+     func showAdvertising(image: UIImage) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
             DispatchQueue.main.async {
                 guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
                 guard let firstWindow = firstScene.windows.first else { return }
-                let viewController = AdvertisingViewController.makeFromNib()
-                let nav = UINavigationController(rootViewController: viewController)
-                viewController.image = image
-                firstWindow.rootViewController = nav
+                var viewController: AdvertisingViewController?
+                viewController = AdvertisingViewController.makeFromNib(image: image) {
+                    viewController?.dismiss(animated: true)
+                    self?.startShowTableFlow()
+                }
+                guard let vc = viewController else { return }
+                firstWindow.rootViewController?.present(vc, animated: true)
             }
         }
     }
+        private func startShowTableFlow() {
+            guard let urlMovies = URLManager.shared.urlMovies else {return}
+            RequestManager.shared.getData(url: urlMovies, decodeTo: MoviesData.self) { [weak self] jsonDetails in
+                let moviewsData = jsonDetails
+                let filterData = jsonDetails.movies
+                self?.showTableView(moviesData: moviewsData, filterData: filterData)
+            }
+        }
+        
+        //MARK: - Show TableView like rootVC
+        private func showTableView(moviesData: MoviesData, filterData: [Movie]) {
+            DispatchQueue.main.async {
+                guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                guard let firstWindow = firstScene.windows.first else { return }
+                let viewController = TableViewController.makeFromNib(data: moviesData.movies)
+                let nav = UINavigationController(rootViewController: viewController)
+                firstWindow.rootViewController = nav
+            }
+        }
 }

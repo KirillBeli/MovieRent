@@ -21,28 +21,22 @@ class URLManager {
     
 }
 
-//extension URL {
-//    static var urlBanner: URL = URL(string: "https://x-mode.co.il/exam/allMovies/generalDeclaration.txt")!
-//    static var urlMovies: URL = URL(string: "https://x-mode.co.il/exam/allMovies/allMovies.txt#")!
-//    static var urlDetailsBase: URL = URL(string: "https://x-mode.co.il/exam/descriptionMovies/")!
+//enum HttpMethod {
+//    case get([URLQueryItem])
+//    case post(Data?)
+//    
+//    var name: String {
+//        switch self {
+//        case .get: return "GET"
+//        case .post: return "POST"
+//        }
+//    }
 //}
-
-enum HttpMethod {
-    case get([URLQueryItem])
-    case post(Data?)
-    
-    var name: String {
-        switch self {
-        case .get: return "GET"
-        case .post: return "POST"
-        }
-    }
-}
-
-struct Resourse<T: Codable> {
-    
-    let url: URL
-    var method: HttpMethod = .get([])
-}
+//
+//struct Resourse<T: Codable> {
+//    
+//    let url: URL
+//    var method: HttpMethod = .get([])
+//}
 
 

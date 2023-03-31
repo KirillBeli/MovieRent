@@ -45,23 +45,23 @@
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="All"/>
                                     <connections>
-                                        <action selector="allButton:" destination="-1" eventType="touchUpInside" id="aVF-SY-aqN"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="rPK-mQ-Xe5"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oPu-wD-LXy">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oPu-wD-LXy">
                                     <rect key="frame" x="133.66666666666666" y="0.0" width="105.66666666666666" height="34.333333333333336"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="Action"/>
                                     <connections>
-                                        <action selector="actionButton:" destination="-1" eventType="touchUpInside" id="DO0-lO-Gin"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="sA9-Ax-EMx"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdH-RW-Y8I">
+                                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdH-RW-Y8I">
                                     <rect key="frame" x="267.33333333333331" y="0.0" width="105.66666666666669" height="34.333333333333336"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="Comedy"/>
                                     <connections>
-                                        <action selector="comedyButton:" destination="-1" eventType="touchUpInside" id="Hbj-7w-Hdg"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="UPd-TT-RA3"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -69,28 +69,28 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="NtD-gA-fXv">
                             <rect key="frame" x="0.0" y="50.333333333333343" width="373" height="34.333333333333343"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ici-nz-pIR">
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ici-nz-pIR">
                                     <rect key="frame" x="0.0" y="0.0" width="105.66666666666667" height="34.333333333333336"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="Fantasy"/>
                                     <connections>
-                                        <action selector="fantasyButton:" destination="-1" eventType="touchUpInside" id="LdI-LO-60L"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="yUs-4T-0n2"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdC-V4-k9T">
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdC-V4-k9T">
                                     <rect key="frame" x="133.66666666666666" y="0.0" width="105.66666666666666" height="34.333333333333336"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="Crime"/>
                                     <connections>
-                                        <action selector="crimeButton:" destination="-1" eventType="touchUpInside" id="l5x-Ex-Uxc"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="i3A-BX-ypH"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z8g-H6-Htz">
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z8g-H6-Htz">
                                     <rect key="frame" x="267.33333333333331" y="0.0" width="105.66666666666669" height="34.333333333333336"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="gray" title="Drama"/>
                                     <connections>
-                                        <action selector="dramaButton:" destination="-1" eventType="touchUpInside" id="VgZ-UM-NKk"/>
+                                        <action selector="didTapFilter:" destination="-1" eventType="touchUpInside" id="fSe-Hj-lOd"/>
                                     </connections>
                                 </button>
                             </subviews>

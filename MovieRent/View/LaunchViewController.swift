@@ -10,7 +10,6 @@ import UIKit
 class LaunchViewController: UIViewController, URLSessionDelegate {
     
     //MARK: - Properties
-//    var bannerData: BannerData?
     let model = LaunchModelView()
     @IBOutlet var imageView: UIImageView!
     
@@ -18,7 +17,6 @@ class LaunchViewController: UIViewController, URLSessionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = UIImage(named: LocalizedString.ImagesString.advertisingImage)
-        
         model.loadAdvertising()
     }
  

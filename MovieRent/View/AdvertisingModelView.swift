@@ -10,29 +10,17 @@ import UIKit
 
 class AdvertisingModelView {
     
-    //MARK: - Timer & Get MoviesData
-     func timerForNextPage() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
-            guard let urlMovies = URLManager.shared.urlMovies else {return}
-            RequestManager.shared.getData(url: urlMovies, decodeTo: MoviesData.self) { [weak self] jsonDetails in
-                guard let jsonDetails = jsonDetails as? MoviesData else {return}
-                let moviewsData = jsonDetails
-                let filterData = jsonDetails.movies
-                self?.showTableView(moviesData: moviewsData, filterData: filterData)
-            }
-        }
+    let image: UIImage?
+    let didFinishShowing: () -> Void
+    init(image: UIImage?, didFinishShowing: @escaping () -> Void) {
+        self.image = image
+        self.didFinishShowing = didFinishShowing
     }
     
-    //MARK: - Show TableView like rootVC
-    private func showTableView(moviesData: MoviesData, filterData: [Movies]) {
-        DispatchQueue.main.async {
-            guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-            guard let firstWindow = firstScene.windows.first else { return }
-            let viewController = TableViewController.makeFromNib()
-            let nav = UINavigationController(rootViewController: viewController)
-            viewController.moviesData = moviesData
-            viewController.filterData = filterData
-            firstWindow.rootViewController = nav
+    //MARK: - Timer & Get MoviesData
+     func timerForNextPage() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                self?.didFinishShowing()
         }
     }
 }

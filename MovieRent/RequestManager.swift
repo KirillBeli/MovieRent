@@ -17,7 +17,7 @@ class RequestManager {
         self.image = image
     }
     
-    func getData<T: Codable>(url: URL, decodeTo: T.Type, completion: @escaping (Any)->()) {
+    func getData<T: Codable>(url: URL, decodeTo: T.Type, completion: @escaping (T)->()) {
         let session = URLSession.shared
         session.dataTask(with: url) { jsonData, response, error in
             if jsonData != nil && error == nil {
