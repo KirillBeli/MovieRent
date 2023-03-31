@@ -43,6 +43,30 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let filter = filterData[indexPath.item]
         cell.idLabel.text = filter.id
         cell.nameLabel.text = filter.name
+//        model.setTableView(data: filterData, index: indexPath, action: action.self, comedy: comedy.self, drama: drama.self, fantasy: fantasy.self, crime: crime.self) { [weak self] (addAction, addComedy, addDrama, addFantasy, addCrime) in
+//
+//                #warning("What happend here!!!!???")
+//                guard let addAction = addAction else {return}
+//                self?.action += addAction
+//                guard let addComedy = addComedy else {return}
+//                self?.comedy += addComedy
+//                guard let addDrama = addDrama else {return}
+//                self?.drama += addDrama
+//                guard let addFantasy = addFantasy else {return}
+//                self?.fantasy += addFantasy
+//                guard let addCrime = addCrime else {return}
+//                self?.crime += addCrime
+//
+//        }
+            
+            
+        
+        
+        
+        
+//        let filter = filterData[indexPath.item]
+//        cell.idLabel.text = filter.id
+//        cell.nameLabel.text = filter.name
         DispatchQueue.main.async { [self] in
             let category = filter.category
             model.addCategory(category: category, localizedS: moviesString.action, localizedC: moviesString.action.capitalized, myCategory: action, filter: filter) { _ in

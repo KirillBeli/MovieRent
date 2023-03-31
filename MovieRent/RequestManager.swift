@@ -17,56 +17,6 @@ class RequestManager {
         self.image = image
     }
     
-    
-    
-    //MARK: - URLSession BannerURL
-    func uploadFromURLBanner(url: URL, completion: @escaping (BannerData) -> Void) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { jsonData, response, error in
-            if jsonData != nil && error == nil {
-                do {
-                    let jsonBanner = try JSONDecoder().decode(BannerData.self, from: jsonData!)
-                    self.decoder.outputFormatting = .prettyPrinted
-                    completion(jsonBanner)
-                } catch {
-                    print("parse error \(error)")
-                }
-            }
-        }.resume()
-    }
-    
-    //MARK: - URLSession MoviesURL
-    func uploadFromURLMovies(url: URL, completion: @escaping (MoviesData) -> Void) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { jsonData, response, error in
-            if jsonData != nil && error == nil {
-                do {
-                    let jsonMovies = try JSONDecoder().decode(MoviesData.self, from: jsonData!)
-                    self.decoder.outputFormatting = .prettyPrinted
-                    completion(jsonMovies)
-                } catch {
-                    print("parse error \(error)")
-                }
-            }
-        }.resume()
-    }
-    
-    //MARK: - URLSession from URLDetails
-    func uploadFomURLDetails(url: URL, completion: @escaping (DetailsData) -> Void) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { jsonData, response, error in
-            if jsonData != nil && error == nil {
-                do {
-                    let jsonDetails = try JSONDecoder().decode(DetailsData.self, from: jsonData!)
-                    self.decoder.outputFormatting = .prettyPrinted
-                    completion(jsonDetails)
-                } catch {
-                    print("parse error \(error)")
-                }
-            }
-        }.resume()
-    }
-    
     func getData<T: Codable>(url: URL, decodeTo: T.Type, completion: @escaping (Any)->()) {
         let session = URLSession.shared
         session.dataTask(with: url) { jsonData, response, error in
@@ -106,27 +56,27 @@ class RequestManager {
         }.resume()
     }
     
-    func load<T: Codable>(resource: Resourse<T>) async throws -> T {
-        
-        var request = URLRequest(url: resource.url)
-        switch resource.method {
-        case .post(let data):
-            request.httpMethod = resource.method.name
-            request.httpBody = data
-        case .get(let queryItems):
-            var components = URLComponents(url: resource.url, resolvingAgainstBaseURL: false)
-            components?.queryItems = queryItems
-            guard let url = components?.url else { throw NetworkManagerError.errorLocalUrl }
-            request = URLRequest(url: url)
-        }
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["Content-Type": "application/json"]
-        let session = URLSession(configuration: configuration)
-        let (data, response) = try await session.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { throw NetworkManagerError.errorResponse(response)}
-        guard let result = try? JSONDecoder().decode(T.self, from: data) else { throw NetworkManagerError.errorData }
-        
-        
-        return result
-    }
+//    func load<T: Codable>(resource: Resourse<T>) async throws -> T {
+//
+//        var request = URLRequest(url: resource.url)
+//        switch resource.method {
+//        case .post(let data):
+//            request.httpMethod = resource.method.name
+//            request.httpBody = data
+//        case .get(let queryItems):
+//            var components = URLComponents(url: resource.url, resolvingAgainstBaseURL: false)
+//            components?.queryItems = queryItems
+//            guard let url = components?.url else { throw NetworkManagerError.errorLocalUrl }
+//            request = URLRequest(url: url)
+//        }
+//        let configuration = URLSessionConfiguration.default
+//        configuration.httpAdditionalHeaders = ["Content-Type": "application/json"]
+//        let session = URLSession(configuration: configuration)
+//        let (data, response) = try await session.data(for: request)
+//        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { throw NetworkManagerError.errorResponse(response)}
+//        guard let result = try? JSONDecoder().decode(T.self, from: data) else { throw NetworkManagerError.errorData }
+//
+//
+//        return result
+//    }
 }
